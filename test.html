@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html>
 	<h1>
-	<a href="index.html">Home</a> <a href="test.html">Test</a> <a href="about.html">About</a>
+	<a href="index.html">Home</a> <a href="test.html">Test</a> <a href="test2.html">Test 2</a> <a href="test3.html">Test 3</a> <a href="about.html">About</a>
 	</h1>
 
 	<body>
 		<canvas id="myCanvas" width="100" height="100"></canvas><br>
-		<input type="range" id="myRange1" value="140" oninput="updateImg(this.value, myRangeValue2.innerHTML, myRangeValue3.innerHTML)" min="0" max="255" step="1"><label id="value1">140</label><br>
-		<input type="range" id="myRange2" value="140" oninput="updateImg(myRangeValue1.innerHTML, this.value, myRangeValue3.innerHTML)" min="0" max="255" step="1"><label id="value2">140</label><br>
-		<input type="range" id="myRange3" value="140" oninput="updateImg(myRangeValue1.innerHTML, myRangeValue2.innerHTML, this.value)" min="0" max="255" step="1"><label id="value3">140</label><br>
+		<input type="range" id="myRange1" value="140" oninput="myRangeValue1.innerHTML = this.value;" min="0" max="255" step="1"><span id="value1">140</span><br>
+		<input type="range" id="myRange2" value="140" oninput="myRangeValue2.innerHTML = this.value;" min="0" max="255" step="1"><span id="value2">140</span><br>
+		<input type="range" id="myRange3" value="140" oninput="myRangeValue3.innerHTML = this.value;" min="0" max="255" step="1"><span id="value3">140</span><br>
+		<input type="button" id="button1" onclick="updateImg(myRangeValue1.textContent, myRangeValue2.textContent, myRangeValue3.textContent)" value="Submit">
 		<script>
 			const myCanvas = document.getElementById("myCanvas");
 			const ctx = myCanvas.getContext("2d");	
 			const imgData = ctx.createImageData(100, 100);	
-			let xMax = myCanvas.height;
-			let yMax = myCanvas.width;
 
 			const myRangeValue1 = document.getElementById("value1");
 			const myRangeValue2 = document.getElementById("value2");
 			const myRangeValue3 = document.getElementById("value3");
-
 
 			function updateImg(x, y, z) {
 				for(let i = 0; i < imgData.data.length; i+=4) {
@@ -27,11 +25,6 @@
 					imgData.data[i+1] = y;
 					imgData.data[i+2] = z;
 					imgData.data[i+3] = 255;
-					
-					myRangeValue1.innerHTML = x;
-					myRangeValue2.innerHTML = y;
-					myRangeValue3.innerHTML = z;
-
 					ctx.putImageData(imgData, 10, 10);
 				}
 			}

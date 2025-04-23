@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<h1>
+	<a href="index.html">Home</a> <a href="test.html">Test</a> <a href="test2.html">Test 2</a> <a href="test3.html">Test 3</a> <a href="about.html">About</a><br>
+	</h1>
+    <title>Slot Machine</title>
+	<body>
+        <canvas id="canvas" width="400" height="200"></canvas><br>
+        <input type="button" value="Roll" size="20"><br>
+        <script>
+            const myCanvas = document.getElementById("canvas");
+            const ctx = myCanvas.getContext("2d");
+
+            //draw background
+            ctx.fillStyle = "red";
+            ctx.fillRect(0,0,100,200);
+            ctx.fillRect(105,0,100,200);
+            ctx.fillRect(210,0,100,200);
+
+            
+
+        </script>
+	</body>
+</html>
