@@ -83,7 +83,8 @@
             var stopClock = false;
             var fps, fpsInterval, startTime, now, then, elapsed;
             var runTime, score;
-            var highscore = localStorage.getItem("Highscore");
+            let highscore = 0;
+            highscore = localStorage.getItem("Highscore");
             function startAnimating(runTimeArg) {
                 runTime = runTimeArg;
                 fps = 10;
@@ -111,7 +112,6 @@
                 //finished running
                 if(runTime <= 0) {
                     stopClock = true;
-                    setTimeout(2);
                     score = Math.max(getScore(), searchForCombo());
                     scoreLabel.innerHTML = "Score: " + score;
                     if(score > highscore) {
