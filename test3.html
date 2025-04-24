@@ -83,8 +83,7 @@
             var stopClock = false;
             var fps, fpsInterval, startTime, now, then, elapsed;
             var runTime, score;
-            var highscore = 0;
-
+            var highscore = localStorage.getItem("Highscore");
             function startAnimating(runTimeArg) {
                 runTime = runTimeArg;
                 fps = 10;
@@ -118,6 +117,7 @@
                     if(score > highscore) {
                         highscoreLabel.innerHTML = "Highscore: " + score;
                         highscore = score;
+                        localStorage.setItem("Highscore", highscore);
                     }
                 }
             }
