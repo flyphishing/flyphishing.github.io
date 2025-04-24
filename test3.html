@@ -84,7 +84,8 @@
             var fps, fpsInterval, startTime, now, then, elapsed;
             var runTime, score;
             let highscore = 0;
-            highscore = localStorage.getItem("Highscore");
+            highscore = parseInt(localStorage.getItem("Highscore"));
+            highscoreLabel.innerHTML = "Highscore: " + highscore;
             function startAnimating(runTimeArg) {
                 runTime = runTimeArg;
                 fps = 10;
