@@ -6,18 +6,30 @@
     <title>Slot Machine</title>
 	<body>
         <canvas id="canvas" width="400" height="200"></canvas><br>
-        <input type="button" value="Roll" size="20"><br>
+        <input type="button" onclick="roll()" value="Roll" size="20"><br>
         <script>
             const myCanvas = document.getElementById("canvas");
             const ctx = myCanvas.getContext("2d");
+            const imageSrc = new Array([
+                "italian-bread.png"
+            ]);
+            ctx.globalCompositeOperation = "source-over";
 
             //draw background
             ctx.fillStyle = "red";
             ctx.fillRect(0,0,100,200);
             ctx.fillRect(105,0,100,200);
             ctx.fillRect(210,0,100,200);
+            ctx.fillStyle = "black";
+            function roll() {
+                let max = imageSrc.length;
+                let temp = document.createElement("img");
+                let chosen = Math.floor(Math.random() * max);
+                console.log(chosen);
+                temp.src = imageSrc.at(chosen);
+                ctx.drawImage(temp, 10, 60, 80, 80);
+            }
 
-            
 
         </script>
 	</body>
