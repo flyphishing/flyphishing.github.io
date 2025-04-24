@@ -6,31 +6,129 @@
     <title>Slot Machine</title>
 	<body>
         <canvas id="canvas" width="400" height="200"></canvas><br>
-        <input type="button" onclick="roll()" value="Roll" size="20"><br>
+        <input type="button" onmouseup="startAnimating(20)" value="Roll" size="20"><br><br>
+        <label id="Score" >Score: 0</label><br>
+        <label id="Highscore">Highscore: 0</label>
         <script>
             const myCanvas = document.getElementById("canvas");
             const ctx = myCanvas.getContext("2d");
-            const imageSrc = new Array([
-                "italian-bread.png"
-            ]);
-            ctx.globalCompositeOperation = "source-over";
+            const imageSrc = [
+                "bread.jpg",
+                "apple.jpg",
+                "cherries.jpg",
+                "pears.jpg"
+            ];
+            const values = [
+                50,
+                25,
+                100,
+                75
+            ];
+
+            const scoreLabel = document.getElementById("Score");
+            const highscoreLabel = document.getElementById("Highscore");
 
             //draw background
             ctx.fillStyle = "red";
             ctx.fillRect(0,0,100,200);
             ctx.fillRect(105,0,100,200);
             ctx.fillRect(210,0,100,200);
-            ctx.fillStyle = "black";
+
+
+            //draw starting objects
+            let img1 = document.createElement("img");
+            let img2 = document.createElement("img");
+            let img3 = document.createElement("img");
+            img1.src = "cherries.jpg";
+            img2.src = "cherries.jpg";
+            img3.src = "cherries.jpg";
+
+            ctx.drawImage(img1, 10, 60, 80, 80);
+            ctx.drawImage(img2, 115, 60, 80, 80);
+            ctx.drawImage(img3, 220, 60, 80, 80);
+
+            let max = imageSrc.length;
+
+            
             function roll() {
-                let max = imageSrc.length;
-                let temp = document.createElement("img");
+                ctx.fillRect(0,0,100,200);
+                ctx.fillRect(105,0,100,200);
+                ctx.fillRect(210,0,100,200);
+
                 let chosen = Math.floor(Math.random() * max);
-                console.log(chosen);
-                temp.src = imageSrc.at(chosen);
-                ctx.drawImage(temp, 10, 60, 80, 80);
+                img1.src = imageSrc[chosen];
+
+                chosen = Math.floor(Math.random() * max);
+                img2.src = imageSrc[chosen];
+
+                chosen = Math.floor(Math.random() * max);
+                img3.src = imageSrc[chosen];
+
+                ctx.drawImage(img1, 10, 60, 80, 80);
+                ctx.drawImage(img2, 115, 60, 80, 80);
+                ctx.drawImage(img3, 220, 60, 80, 80);
             }
 
+            var stopClock = false;
+            var fps, fpsInterval, startTime, now, then, elapsed;
+            var runTime, score;
+            var highscore = 0;
+            function startAnimating(runTimeArg) {
+                runTime = runTimeArg;
+                fps = 5;
+                fpsInterval = 1000 / fps;
+                then = Date.now();
+                startTime = then;
+                
+                animate();
+                
+                
+                stopClock = false;
+            }
 
+            function animate() {
+                if(!stopClock) {
+                    requestAnimationFrame(animate);
+                }
+                now = Date.now();
+                elapsed = now - then;
+                if (elapsed > fpsInterval) {
+                    then = now - (elapsed % fpsInterval / runTime);
+                    roll();
+                    runTime--;
+                }
+
+                //finished running
+                if(runTime <= 0) {
+                    stopClock = true;
+                    score = Math.max(getScore(), searchForCombo());
+                    scoreLabel.innerHTML = "Score: " + score;
+                    if(score > highscore) {
+                        highscoreLabel.innerHTML = "Highscore: " + score;
+                        highscore = score;
+                    }
+                }
+            }
+
+            function getScore() {
+                num = values[imageSrc.indexOf(img1.src.substring(64))] + values[imageSrc.indexOf(img2.src.substring(64))] + values[imageSrc.indexOf(img3.src.substring(64))];  
+                return num;
+            }
+
+            //to get the filename only: img1.src.substring(64))
+            function searchForCombo() {
+                let spot1 = img1.src.substring(64);
+                let spot2 = img2.src.substring(64);
+                let spot3 = img3.src.substring(64);
+
+                if(spot1 == "cherries.jpg" && spot2 == "cherries.jpg" && spot3 == "cherries.jpg") {
+                    return 500;
+                }
+                if(spot1 == "pears.jpg" && spot2 == "pears.jpg" && spot3 == "pears.jpg") {
+                    return 400;
+                }
+                return 0;
+            }
         </script>
 	</body>
 </html>
