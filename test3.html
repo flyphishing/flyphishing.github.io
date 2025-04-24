@@ -6,23 +6,34 @@
     <title>Slot Machine</title>
 	<body>
         <canvas id="canvas" width="400" height="200"></canvas><br>
-        <input type="button" onmouseup="startAnimating(20)" value="Roll" size="20"><br><br>
+        <button id="roll">Roll</button><br><br>
         <label id="Score" >Score: 0</label><br>
-        <label id="Highscore">Highscore: 0</label>
+        <label id="Highscore">Highscore: 0</label><br><br>
+
+        <h2>Values</h2>
+        <pre>Apple:    25<br>Pepper:   35<br>Pears:    75<br>Grapes:   90<br>Cherries: 100<br>Eggplant: 120</pre>
         <script>
             const myCanvas = document.getElementById("canvas");
             const ctx = myCanvas.getContext("2d");
+
+            const button = document.querySelector("button");
+            button.addEventListener("click", function(){startAnimating(23)});
+
             const imageSrc = [
-                "bread.jpg",
                 "apple.jpg",
                 "cherries.jpg",
-                "pears.jpg"
+                "pears.jpg",
+                "grapes.jpg",
+                "eggplant.jpg",
+                "pepper.jpg"
             ];
             const values = [
-                50,
                 25,
                 100,
-                75
+                75,
+                90,
+                120,
+                35
             ];
 
             const scoreLabel = document.getElementById("Score");
@@ -73,17 +84,16 @@
             var fps, fpsInterval, startTime, now, then, elapsed;
             var runTime, score;
             var highscore = 0;
+
             function startAnimating(runTimeArg) {
                 runTime = runTimeArg;
-                fps = 5;
+                fps = 10;
                 fpsInterval = 1000 / fps;
                 then = Date.now();
                 startTime = then;
-                
+                stopClock = false;
                 animate();
                 
-                
-                stopClock = false;
             }
 
             function animate() {
@@ -92,8 +102,9 @@
                 }
                 now = Date.now();
                 elapsed = now - then;
+                fpsInterval++;
                 if (elapsed > fpsInterval) {
-                    then = now - (elapsed % fpsInterval / runTime);
+                    then = now - (elapsed % fpsInterval);
                     roll();
                     runTime--;
                 }
@@ -120,12 +131,23 @@
                 let spot1 = img1.src.substring(64);
                 let spot2 = img2.src.substring(64);
                 let spot3 = img3.src.substring(64);
-
+                if(spot1 == "eggplant.jpg" && spot2 == "eggplant.jpg" && spot3 == "eggplant.jpg") {
+                    return 750;
+                }
                 if(spot1 == "cherries.jpg" && spot2 == "cherries.jpg" && spot3 == "cherries.jpg") {
                     return 500;
                 }
+                if(spot1 == "grapes.jpg" && spot2 == "grapes.jpg" && spot3 == "grapes.jpg") {
+                    return 450;
+                }
                 if(spot1 == "pears.jpg" && spot2 == "pears.jpg" && spot3 == "pears.jpg") {
-                    return 400;
+                    return 350;
+                }
+                if(spot1 == "pepper.jpg" && spot2 == "pepper.jpg" && spot3 == "pepper.jpg") {
+                    return 200;
+                }
+                if(spot1 == "apple.jpg" && spot2 == "apple.jpg" && spot3 == "apple.jpg") {
+                    return 150;
                 }
                 return 0;
             }
