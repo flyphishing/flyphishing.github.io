@@ -112,6 +112,7 @@
                 //finished running
                 if(runTime <= 0) {
                     stopClock = true;
+                    setTimeout(2);
                     score = Math.max(getScore(), searchForCombo());
                     scoreLabel.innerHTML = "Score: " + score;
                     if(score > highscore) {
@@ -122,15 +123,15 @@
             }
 
             function getScore() {
-                num = values[imageSrc.indexOf(img1.src.substring(64))] + values[imageSrc.indexOf(img2.src.substring(64))] + values[imageSrc.indexOf(img3.src.substring(64))];  
+                num = values[imageSrc.indexOf(img1.src)] + values[imageSrc.indexOf(img2.src)] + values[imageSrc.indexOf(img3.src)];  
                 return num;
             }
 
-            //to get the filename only: img1.src.substring(64))
+            //to get the filename only: img1.src)
             function searchForCombo() {
-                let spot1 = img1.src.substring(64);
-                let spot2 = img2.src.substring(64);
-                let spot3 = img3.src.substring(64);
+                let spot1 = img1.src;
+                let spot2 = img2.src;
+                let spot3 = img3.src;
                 if(spot1 == "eggplant.jpg" && spot2 == "eggplant.jpg" && spot3 == "eggplant.jpg") {
                     return 750;
                 }
