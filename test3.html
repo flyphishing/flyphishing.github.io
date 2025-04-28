@@ -62,6 +62,7 @@
 
             
             function roll() {
+                if(!stopClock) {
                 ctx.fillRect(0,0,100,200);
                 ctx.fillRect(105,0,100,200);
                 ctx.fillRect(210,0,100,200);
@@ -78,14 +79,19 @@
                 ctx.drawImage(img1, 10, 60, 80, 80);
                 ctx.drawImage(img2, 115, 60, 80, 80);
                 ctx.drawImage(img3, 220, 60, 80, 80);
+                }
             }
 
             var stopClock = false;
             var fps, fpsInterval, startTime, now, then, elapsed;
             var runTime, score;
-            let highscore = 0;
-            highscore = parseInt(localStorage.getItem("Highscore"));
-            highscoreLabel.innerHTML = "Highscore: " + highscore;
+            let highscore = parseInt(localStorage.getItem("Highscore"));
+            if(!isNaN(parseInt(localStorage.getItem("Highscore")))) {
+                highscore = parseInt(localStorage.getItem("Highscore"));
+                highscoreLabel.innerHTML = "Highscore: " + highscore;
+            } else {
+                highscore = 0;
+            }
             function startAnimating(runTimeArg) {
                 runTime = runTimeArg;
                 fps = 10;
@@ -104,11 +110,13 @@
                 now = Date.now();
                 elapsed = now - then;
                 fpsInterval++;
-                if (elapsed > fpsInterval) {
+                if (elapsed > fpsInterval && !stopClock) {
                     then = now - (elapsed % fpsInterval);
+                    
                     roll();
                     runTime--;
                 }
+                
 
                 //finished running
                 if(runTime <= 0) {
@@ -121,18 +129,20 @@
                         localStorage.setItem("Highscore", highscore);
                     }
                 }
+                
             }
 
             function getScore() {
-                num = values[imageSrc.indexOf(img1.src.substring(30))] + values[imageSrc.indexOf(img2.src.substring(30))] + values[imageSrc.indexOf(img3.src.substring(30))];  
+                num = values[imageSrc.indexOf(img1.src.slice(img1.src.lastIndexOf("/")+1))] + values[imageSrc.indexOf(img2.src.slice(img2.src.lastIndexOf("/")+1))] + values[imageSrc.indexOf(img3.src.slice(img3.src.lastIndexOf("/")+1))];  
                 return num;
             }
 
-            //to get the filename only: img1.src.substring(30))
             function searchForCombo() {
-                let spot1 = img1.src.substring(30);
-                let spot2 = img2.src.substring(30);
-                let spot3 = img3.src.substring(30);
+                let spot1 = img1.src.slice(img1.src.lastIndexOf("/")+1);
+                let spot2 = img2.src.slice(img2.src.lastIndexOf("/")+1);
+                let spot3 = img3.src.slice(img3.src.lastIndexOf("/")+1);
+                console.log(spot1);
+                console.log(img1.src.lastIndexOf("/")+1);
                 if(spot1 == "eggplant.jpg" && spot2 == "eggplant.jpg" && spot3 == "eggplant.jpg") {
                     return 750;
                 }
