@@ -133,7 +133,7 @@
             }
 
             function getScore() {
-                num = values[imageSrc.indexOf(img1.src.slice(img1.src.lastIndexOf("/")+1))] + values[imageSrc.indexOf(img2.src.slice(img2.src.lastIndexOf("/")+1))] + values[imageSrc.indexOf(img3.src.slice(img3.src.lastIndexOf("/")+1))];  
+                num = values[imageSrc.indexOf(img1.src.slice(img1.src.lastIndexOf("/")-6))] + values[imageSrc.indexOf(img2.src.slice(img2.src.lastIndexOf("/")-6))] + values[imageSrc.indexOf(img3.src.slice(img3.src.lastIndexOf("/")-6))];  
                 return num;
             }
 
